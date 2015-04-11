@@ -1,16 +1,16 @@
-chrome.extension.sendMessage({}, function(response) {
-	var readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+// chrome.extension.sendMessage({}, function(response) {
+// 	var readyStateCheckInterval = setInterval(function() {
+// 	if (document.readyState === "complete") {
+// 		clearInterval(readyStateCheckInterval);
 
-		// ----------------------------------------------------------
-		// This part of the script triggers when page is done loading
-		console.log("Hello. This message was sent from scripts/inject.js");
-		// ----------------------------------------------------------
+// 		// ----------------------------------------------------------
+// 		// This part of the script triggers when page is done loading
+// 		console.log("Hello. This message was sent from scripts/inject.js");
+// 		// ----------------------------------------------------------
 
-	}
-	}, 10);
-});
+// 	}
+// 	}, 10);
+// });
 
 $(document).ready(function() {
 
@@ -18,10 +18,12 @@ $(document).ready(function() {
     $('body').append(popover);
 
 
-    var p = $('p');
-    p.css({ cursor: 'pointer' });
+    // var p = $('*');
+    // p.css({ cursor: 'pointer' });
 
-    p.dblclick(function(e) {
+    $(document).on('dblclick', '*', dblclickHandler);
+
+    function dblclickHandler(e) {
         var range = window.getSelection() || document.getSelection() || document.selection.createRange();
         var word = $.trim(range.toString());
         if(word != '') {
@@ -29,7 +31,7 @@ $(document).ready(function() {
         }
         range.collapse();
         e.stopPropagation();
-    });
+    }
 
 });
 
@@ -45,11 +47,28 @@ function showPopover(word, x, y) {
         var popover = $('.dalila_popover');
 
 
-        popover.show();
-        popover.html( JSON.stringify(result) );
+        var html = '<table style="width: 100%;">';
 
-        var html = JSON.stringify(result);
-        popover.html(html)
+        var labelsVsResults = [];
+        labelsVsResults.push([ "Word" , result.word ])
+        labelsVsResults.push([ "Diac" , result.diac ])
+        labelsVsResults.push([ "Pos" , result.pos ])
+        labelsVsResults.push([ "Lex" , result.lex ])
+        labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
+        labelsVsResults.push([ "Gloss" , result.gloss ])
+
+        for(var k in labelsVsResults) {
+            var label = labelsVsResults[k][0];
+            var value = labelsVsResults[k][1];
+            html += '<tr><td style="width:80px">' + label + '</td><td>' + value + '</td></tr>';
+        }
+
+        html += '</table>';
+
+
+
+        popover.html(html);
+        popover.show();
 
         popover.css({top:0, left:0})
 
