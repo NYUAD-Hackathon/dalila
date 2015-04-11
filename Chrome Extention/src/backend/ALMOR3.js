@@ -124,13 +124,15 @@ function analyzeSolutions(word){
                                 analysis.lex = stem_value["lex"]
 
                                 var bw     = prefix_value.bw + "+"+stem_value.bw + "+"+suffix_value.bw;  //var $voc_str = $$prefix_value{"diac"}."+".$$stem_value{"diac"}."+".$$suffix_value{"diac"};
+                                console.log("original bw:", bw)
+                                
+                                //Replace undefined with empty
+                                bw = replaceAll('undefined','', bw);
 
                                 //Replace pluses in the beginning with empty
                                 bw = replaceAll("^\\++", '', bw)
                                  //Replace pluses in the ending with empty
                                 bw = replaceAll("\\++$", '', bw)
-                                //Replace undefined with empty
-                                bw = replaceAll('undefined','', bw);
                                 //Replace double pluses with single pluses
                                 bw = replaceAll('\\++', "+", bw);
 
