@@ -77,11 +77,9 @@ function showPopover(word, x, y) {
             }
 
             html += '</table>';
-
-            html += '<a href="http://visitabudhabi.ae/en/default.aspx" href="_blank"><img src="'+ chrome.extension.getURL('icons/ad.jpg') +'" /></a>';
         }
 
-
+        html += '<a href="http://visitabudhabi.ae/en/default.aspx" href="_blank"><img src="'+ chrome.extension.getURL('icons/ad.jpg') +'" /></a>';
 
         popover.html(html);
         popover.show();
