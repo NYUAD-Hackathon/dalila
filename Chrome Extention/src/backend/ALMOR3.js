@@ -8,11 +8,11 @@ function analyzeSolutions(word){
 
 	word = toBuckwalter(word)
 	var output = []; 										//var (@output) = ();
-    var solutions = []; 									//var @solutions = (); 
+    var solutions = []; 									//var @solutions = ();
     var cnt = 0; 											//var $cnt = 0;
 
- 
-    //// Handle deterministic (trivial) cases 
+
+    //// Handle deterministic (trivial) cases
     if(word.match(/^\s*$/) ){								//if ($word =~/^\s*$/){
 		//#Word is just whitespace
 		return [word];										//[$word];
@@ -21,20 +21,20 @@ function analyzeSolutions(word){
 		////  Word is likely a non-Arabic word
 		//var hash_res 		= hash["DEFAULT pos:noun"]		//$$hash{"DEFAULT pos:noun"}
 		var default_obj 	= {}//hash_res; 				//var %DEFAULT=%{$$hash{"DEFAULT pos:noun"}};
-		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word; 
-		default_obj.lex 	= word;// + "_0";					//$DEFAULT{"lex"}=$word."_0"; 
-		default_obj.bw 		= "FOREIGN";			//$DEFAULT{"bw"}=$word."/FOREIGN"; 
-		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word; 
+		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word;
+		default_obj.lex 	= word;// + "_0";					//$DEFAULT{"lex"}=$word."_0";
+		default_obj.bw 		= "FOREIGN";			//$DEFAULT{"bw"}=$word."/FOREIGN";
+		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word;
 		default_obj.source 	= "foreign";					//$DEFAULT{"source"}="foreign";
 		return [default_obj];								//return [$analysis];
 	}else if (word.match(/\d+/)){							//( $word=~/\d+/ ){
-		//  Word contains digits	
+		//  Word contains digits
 		//var hash_res 		= hash["DEFAULT pos:digit"]		//$$hash{"DEFAULT pos:digit"}
 		var default_obj 	= {}//hash_res; 				//var %DEFAULT=%{$$hash{"DEFAULT pos:digit"}};
-		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word; 
-		default_obj.lex 	= word;							//$DEFAULT{"lex"}=$word."_0"; 
+		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word;
+		default_obj.lex 	= word;							//$DEFAULT{"lex"}=$word."_0";
 		default_obj.bw 		= "NOUN_NUM";					//$DEFAULT{"bw"}=$word."/NOUN_NUM";
-		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word; 
+		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word;
 		//default_obj.source 	= "digit";					//$DEFAULT{"source"}="digit";
 															//var $analysis=&featureHash2Str($$hash{"ORDER"},\%DEFAULT);
 		return [default_obj];								//return [$analysis];
@@ -42,105 +42,118 @@ function analyzeSolutions(word){
 		// Word is a string of punctuation characters (excepting those used by Buckwalter)
 		//var hash_res 		= hash["DEFAULT pos:punc"]		//$$hash{"DEFAULT pos:punc"}
 		var default_obj 	= {}//hash_res; 				//var %DEFAULT=%{$$hash{"DEFAULT pos:punc"}};
-		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word; 
-		default_obj.lex 	= word;							//$DEFAULT{"lex"}=$word."_0"; 
-		default_obj.bw 		= "PUNC";						//$DEFAULT{"bw"}=$word."/PUNC"; 
-		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word; 
+		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word;
+		default_obj.lex 	= word;							//$DEFAULT{"lex"}=$word."_0";
+		default_obj.bw 		= "PUNC";						//$DEFAULT{"bw"}=$word."/PUNC";
+		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word;
 		//default_obj.source 	= "punc";					//$DEFAULT{"source"}="punc";
 															//var $analysis=&featureHash2Str($$hash{"ORDER"},\%DEFAULT);
 		return [default_obj]								//return [$analysis];
     }
 
 
-    var matchword = word.replace(/(\s|[aiuo\~\`FKN\_])/g, "");		//matchword		=~s/(\s|[aiuo\~\`FKN\_])//g; 
+    var matchword = word.replace(/(\s|[aiuo\~\`FKN\_])/g, "");		//matchword		=~s/(\s|[aiuo\~\`FKN\_])//g;
     var unvocword = matchword;										//var $unvocword=$matchword; #just no voc.
     matchword 	  = matchword.replace(/[>|<\{]/g, "A")				//$matchword=~s/[>|<\{]/A/g;
     matchword 	  = matchword.replace(/Y/g, "y")					//$matchword=~s/Y/y/g;
     matchword 	  = matchword.replace(/p/g, "h")					//$matchword=~s/p/h/g;
-    
+
     if(matchword == ""){											//if ($matchword eq ""){
 		matchword = word;											//$matchword = $word;
     }
-	
+
 
     var segmented = segmentword(matchword);							//var @segmented= @{ &segmentword($matchword,$hash) };
     for(var t=0; t<segmented.length; t++){							//foreach var $segmentation (@segmented) {
-	 	var segmentation 	= segmented[t];
-	 	console.log(segmentation + "\n");							//#print "( $segmentation )\n";
-		
-		var prefix 			= segmented[0];							//var ($prefix,$stem,$suffix) = split ("\t",$segmentation); 
-		var stem 			= segmented[1];
-		var suffix 			= segmented[2];
+	 	var segmentation 	= segmented[t];						//#print "( $segmentation )\n";
+
+		var prefix 			= segmentation[0];							//var ($prefix,$stem,$suffix) = split ("\t",$segmentation);
+		var stem 			= segmentation[1];
+		var suffix 			= segmentation[2];
 
 
-	
+
 	    console.log(prefix + " " + stem + " " + suffix)					//#  print "($prefix,$stem,$suffix)\n";
 
-	    for (var stem_value in hash_stem) {								//for(var u=0; u<hash_stem.length; u++){							//foreach var $stem_value (@{$$hash{"stem#$stem"}}){
+        var stem_value_list = hash_stem[stem];
+
+	    for (var i in stem_value_list) {								//for(var u=0; u<hash_stem.length; u++){							//foreach var $stem_value (@{$$hash{"stem#$stem"}}){
+            var stem_value = stem_value_list[i]
 			//var stem_value	= hash_stem[u];
 			var cat_b 		= stem_value["category"]					//var  $cat_b = $$stem_value{"XAMACAT"};
-				
-			for (var prefix_value in hash_prefix) {						//for(var v=0; v<hash_prefix.length; v++){					//foreach var $prefix_value (@{$$hash{"pre#$prefix"}}) {
+
+            var prefix_value_list = hash_prefix[prefix];
+
+			for (var j in prefix_value_list) {						//for(var v=0; v<hash_prefix.length; v++){					//foreach var $prefix_value (@{$$hash{"pre#$prefix"}}) {
+                var prefix_value = prefix_value_list[j];
+
 		    	//var prefix_value 	= hash_prefix[v];
-		    	var cat_a 			= prefix_value["category"] 			//var $cat_a = $$prefix_value{"XAMACAT"};		    
-		    	
+		    	var cat_a 			= prefix_value["category"] 			//var $cat_a = $$prefix_value{"XAMACAT"};
+
 		    	if( table.table_AB[cat_a+"!"+cat_b]  ){ 				//if ( exists($$hash{"tAB#$cat_a $cat_b"}) ) {
-				
-					for (var suffix_value in hash_suffix) {				//for(var w=0; w<hash_suffix.length; w++){			//foreach var $suffix_value (@{$$hash{"suf#$suffix"}}) {
+
+                    var suffix_value_list = hash_suffix[suffix];
+					for (var k in suffix_value_list) {				//for(var w=0; w<hash_suffix.length; w++){			//foreach var $suffix_value (@{$$hash{"suf#$suffix"}}) {
+                        var suffix_value = suffix_value_list[k];
 						//var suffix_value 	= hash_suffix[w];
+
 						var cat_c 			= suffix_value["category"];	//var $cat_c = $$suffix_value{"XAMACAT"};
-			    
-			    		if( table.table_BC[cat_b+"!"+cat_c]  ){ 										//if ( exists($$hash{"tBC#$cat_b $cat_c"}) ) {
+
+			    		if( table.table_BC[cat_b+"!"+cat_c]  ){
+                        								//if ( exists($$hash{"tBC#$cat_b $cat_c"}) ) {
 							if(  table.table_AC[cat_a+"!"+cat_c] ){										//if ( exists($$hash{"tAC#$cat_a $cat_c"}) ) {
-								
-				    			var voc_str 	= prefix_value.diac + "+" + stem_value.diac + "+" + suffix_value.diac;	//var $voc_str = $$prefix_value{"diac"}."+".$$stem_value{"diac"}."+".$$suffix_value{"diac"};
+
+				    			var voc_str 	= prefix_value.diac + stem_value.diac + suffix_value.diac;	//var $voc_str = $$prefix_value{"diac"}."+".$$stem_value{"diac"}."+".$$suffix_value{"diac"};
+                                voc_str = replaceAll('_',' ', voc_str);
 				    			// TODO convert BWMorphotactics to javascript
 				    			//voc_str		= BWMorphotactics(voc_str)												//$voc_str=&BWMorphotactics($voc_str);
 
 				    			//var $unvoc_str=$voc_str;
-				    			var unvoc_str 	= voc_str.replace(/(\s|[aiuo\~\`FKN\_])/g, "");						//$unvoc_str=~s/(\s|[aiuo\~\`FKN\_])//g; 
-				    			
+				    			var unvoc_str 	= voc_str.replace(/(\s|[aiuo\~\`FKN\_])/g, "");						//$unvoc_str=~s/(\s|[aiuo\~\`FKN\_])//g;
+
 				    			//IGNORE featureMergePSS
-				    			//#prefer values in this order: STEM+DEFAULT < prefix < suffix 
-				    			var analysis 	= {}	
+				    			//#prefer values in this order: STEM+DEFAULT < prefix < suffix
+				    			var analysis 	= {}
 				    			analysis.word 	= toUnicode(unvoc_str)
 				    			analysis.diac 	= toUnicode(voc_str)
 				    			analysis.pos 	= stem_value["pos"]														//var %analysis = %{ &featureMergePSS($prefix_value,$stem_value,$suffix_value) };
+                                stem_value["lex"] = stem_value["lex"].replace(/(-[uiao])?\_\d$/, "")
 				    			analysis.lex 	= toUnicode(stem_value["lex"])														//var %analysis = %{ &featureMergePSS($prefix_value,$stem_value,$suffix_value) };
 
 				   				analysis.lexgloss = stem_value["gloss"]																//# $analysis{"gloss"} = $$stem_value{"gloss"};
-								
+
 							    analysis.gloss 	= prefix_value["gloss"] + "+" + stem_value["gloss"] + "+" + suffix_value["gloss"];	//$analysis{"gloss"} = $$prefix_value{"gloss"}."+".$$stem_value{"gloss"}."+".$$suffix_value{"gloss"};
-							    
+
 
 
 							    //analysis.bw  = prefix_value["bw"] + "+" + stem_value["bw"] + "+" + suffix_value["bw"];				//$analysis{"bw"} = $$prefix_value{"bw"}."+".$$stem_value{"bw"}."+".$$suffix_value{"bw"};
 							   																		//$analysis{"diac"} = $voc_str;
 
 	//tok: 'و+ما+ح+يكتب+ها+ش'
-	
 
-							  //  if(unvoc_str != unvocword){																			//if ($unvoc_str ne $unvocword){ 
+
+							  //  if(unvoc_str != unvocword){																			//if ($unvoc_str ne $unvocword){
 							   // 	$analysis{"source"}="spvar";
 							    //}
-							    
+
 							    //var $analysis = &featureHash2Str($$hash{"ORDER"},\%analysis);
 							   // var voc_stem = stem_value["diac"];																	//var $voc_stem=$$stem_value{"diac"};
 							    //output.push({"analysis":analysis, "stem": voc_stem, "stemcat": cat_b}});							//push (@output, "$analysis stem:$voc_stem stemcat:$cat_b");
-							 output.push(analysis);
-															
+                                return analysis;
+							   //output.push(analysis);
+
 							}
 			    		}
 					}
 		    	}
 			}
 	    }
-	    
+
 	}
-	
+
     //#@output=@{ &trimMalformed(&markMalformed($hash,\@output)) };
     //#@output=@{ &markMalformed($hash,\@output) };
-    
+
     //#Hard-coded solutions:
     //#CLASS LATIN	pos:latin
     //#CLASS DIGIT	pos:digit
@@ -149,13 +162,13 @@ function analyzeSolutions(word){
 
     //#if( @output == 0 ) { print STDERR "NO LEXICAL ANALYSES\n"; }
 
- 
+
     // Probably a more efficient way of doing the following step ?
     //@output=@{ &unique(\@output) };
-    
+
     return output;//return \@output;
-    
-    
+
+
 }
 
 function BWMorphotactics(str){			//sub BWMorphotactics {
@@ -164,14 +177,14 @@ function BWMorphotactics(str){			//sub BWMorphotactics {
     //str = str.replace(/^((wa|fa)?(bi|ka)?Al)\+([tvd\*rzs\$SDTZln])/, "$1$4~" )   $str =~ s/^((wa|fa)?(bi|ka)?Al)\+([tvd\*rzs\$SDTZln])/$1$4~/; # not moon letters
     //$str =~ s/^((wa|fa)?lil)\+([tvd\*rzs\$SDTZln])/$1$3~/; # not moon letters
     //$str =~ s/A\+a([pt])/A$1/; # e.g.: Al+HayA+ap
-    //$str =~ s/\{/A/g; 
-    //$str =~ s/\+//g; 
+    //$str =~ s/\{/A/g;
+    //$str =~ s/\+//g;
 
     return str;							//return($str);
 
 }
 
-var segmentword = function(str){ 
+var segmentword = function(str){
 
     var segmented = [];
     var prefix_len = 0;
@@ -190,14 +203,14 @@ var segmentword = function(str){
 	prefix = str.substr(0, prefix_len);
 	if ( hash_prefix.hasOwnProperty(prefix)) {
     // if (exists(hash["pre#$prefix"])) {
-	    stem_len = (str_len - prefix_len); 
+	    stem_len = (str_len - prefix_len);
 	    suffix_len = 0;
 	    while ((stem_len >= 1) && (suffix_len <= max_suffix_len)) {
 		stem   = str.substr(prefix_len, stem_len);
 		suffix = str.substr((prefix_len + stem_len), suffix_len);
         if (hash_suffix.hasOwnProperty(suffix)) {
 //		if (exists(hash["suf#$suffix"])) {
-		    segmented.push(prefix + '/' + stem +'/'+ suffix);
+		    segmented.push([prefix , stem , suffix]);
 		}
 		stem_len--;
 		suffix_len++;
@@ -205,7 +218,7 @@ var segmentword = function(str){
 	};
 	prefix_len++;
     };
-    return segmented;   
+    return segmented;
 };
 
 function replaceAll(find, replace, str) {
@@ -216,7 +229,7 @@ function toUnicode(text){
 //"""The function takes a text and returns a Unicode representation of it"""
  	text = replaceAll( "'" , "\u0621", text)
 
-    text = replaceAll( "|" , "\u0622", text)
+     text = replaceAll( "\\|" , "\u0622", text)
 
     text = replaceAll( ">" , "\u0623", text )
 
@@ -224,7 +237,7 @@ function toUnicode(text){
 
     text = replaceAll( "<" , "\u0625", text)
 
-    text = replaceAll( "}" , "\u0626", text)
+    text = replaceAll( "\\}" , "\u0626", text)
 
     text = replaceAll( "A" , "\u0627", text)
 
@@ -244,7 +257,7 @@ function toUnicode(text){
 
     text = replaceAll( "d" , "\u062F", text)
 
-    text = replaceAll( "*" , "\u0630", text)
+    text = replaceAll( "\\*" , "\u0630", text)
 
     text = replaceAll( "r" , "\u0631", text)
 
@@ -252,7 +265,7 @@ function toUnicode(text){
 
     text = replaceAll( "s" , "\u0633", text)
 
-    text = replaceAll( "$" , "\u0634", text)
+    text = replaceAll( "\\$" , "\u0634", text)
 
     text = replaceAll( "S" , "\u0635", text)
 
@@ -306,7 +319,7 @@ function toUnicode(text){
 
     text = replaceAll( "`" , "\u0670", text)
 
-    text = replaceAll( "{" , "\u0671", text)
+    text = replaceAll( "\\{" , "\u0671", text)
 
     return text
 }
@@ -325,7 +338,7 @@ function toBuckwalter(text){
 
      text = replaceAll("\u0626", "}", text)
 
-     text = replaceAll("\u0627", "A", text)    
+     text = replaceAll("\u0627", "A", text)
 
      text = replaceAll("\u0628","b", text) // baa'
 
