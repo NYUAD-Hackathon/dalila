@@ -44,31 +44,12 @@ function showPopover(word, x, y) {
 function dalilaProcess(word, callback) {
 
     var result = {
-        prefix: {
-            name: 'wmbt',
-            category: 'Pref-IV-yu-ELSE',
-            diac: 'wimA_bitu',
-            bw: 'wi/PART/NEG_PART/PROG_PART/IV2MS',
-            gloss: 'so/and_+_not_+_[present-tense]_+_you_',
-            pos: 'verb'
-        },
-        suffix: {
-            name: 'km',
-            category: 'Suff-NOM-stem-V-POSS',
-            diac: 'kum',
-            bw: 'kum/POSS_PRON_2P',
-            gloss: 'your_'
-
-        },
-        stem: {
-            name: 'brA',
-            category: 'N',
-            diac: 'barA',
-            lex:'bariy_1',
-            bw:'barA/ADJ',
-            gloss:'innocent;exempt_',
-            pos:'adj'
-        }
+	word: 'ومحيكتبهاش'
+	diac: 'وِما حَيِكْتِبهاش',
+	pos: 'verb',
+	lex: 'كَتَب',
+	gloss: 'and he will not write it',
+	lexgloss: 'write'
     };
 
     callback(result);
