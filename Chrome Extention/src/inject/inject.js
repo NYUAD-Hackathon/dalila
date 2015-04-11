@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 function showPopover(word, x, y) {
     dalilaProcess(word, function(result) {
-        $('.dalila_popover').show().html(result.stem.gloss).css({top:y, left:x})
+        $('.dalila_popover').show().html( JSON.stringify(result) ).css({top:y, left:x})
     });
 }
 
@@ -44,13 +44,13 @@ function showPopover(word, x, y) {
 function dalilaProcess(word, callback) {
 
     var result = {
-	word: 'ومحيكتبهاش'
-	diac: 'وِما حَيِكْتِبهاش',
-	tok: 'و+ما+ح+يكتب+ها+ش'
-	pos: 'verb',
-	lex: 'كَتَب',
-	gloss: 'and he will not write it',
-	lexgloss: 'write'
+    	word: 'ومحيكتبهاش',
+    	diac: 'وِما حَيِكْتِبهاش',
+    	tok: 'و+ما+ح+يكتب+ها+ش',
+    	pos: 'verb',
+    	lex: 'كَتَب',
+    	gloss: 'and he will not write it',
+    	lexgloss: 'write'
     };
 
     callback(result);

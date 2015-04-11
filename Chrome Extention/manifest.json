@@ -21,8 +21,7 @@
         "<all_urls>"
       ],
       "css": [
-        "src/inject/inject.css",
-        "js/bootstrap-3.3.4-dist/css/bootstrap.min.css"
+        "src/inject/inject.css"
       ]
     },
     {
@@ -30,9 +29,8 @@
         "<all_urls>"
       ],
       "js": [
-      "js/jquery/jquery.min.js",
-      "js/bootstrap-3.3.4-dist/js/bootstrap.min.js",
-      "src/inject/inject.js"
+        "js/jquery/jquery.min.js",
+        "src/inject/inject.js"
       ]
     }
   ]
