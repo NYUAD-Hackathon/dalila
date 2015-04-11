@@ -33,9 +33,36 @@ $(document).ready(function() {
 
 });
 
+
+
 function showPopover(word, x, y) {
     dalilaProcess(word, function(result) {
-        $('.dalila_popover').show().html(result.stem.gloss).css({top:y, left:x})
+
+        jQuery(document).one('mousemove', function(e) {
+            $('.dalila_popover').hide();
+        });
+
+        var popover = $('.dalila_popover');
+
+
+        popover.show();
+        popover.html( JSON.stringify(result) );
+        popover.css({top:0, left:0})
+
+
+        if($(window).width() - x < $(popover).width()) {
+            popover.css({right:0, left:'auto'})
+        } else if(x < $(popover).width()) {
+            popover.css({left:0, right:'auto'})
+        } else {
+            x = x - popover.width()/2;
+            popover.css({left:x, right:'auto'})
+        }
+
+        popover.css({width:300})
+        y = y + 20;
+        popover.css({top:y})
+
     });
 }
 
@@ -44,13 +71,13 @@ function showPopover(word, x, y) {
 function dalilaProcess(word, callback) {
 
     var result = {
-	word: 'ومحيكتبهاش'
-	diac: 'وِما حَيِكْتِبهاش',
-	tok: 'و+ما+ح+يكتب+ها+ش'
-	pos: 'verb',
-	lex: 'كَتَب',
-	gloss: 'and he will not write it',
-	lexgloss: 'write'
+    	word: 'ومحيكتبهاش',
+    	diac: 'وِما حَيِكْتِبهاش',
+    	tok: 'و+ما+ح+يكتب+ها+ش',
+    	pos: 'verb',
+    	lex: 'كَتَب',
+    	gloss: 'and he will not write it',
+    	lexgloss: 'write'
     };
 
     callback(result);
