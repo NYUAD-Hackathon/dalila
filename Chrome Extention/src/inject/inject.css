@@ -1,11 +1,21 @@
 .dalila_popover {
+
     position: absolute;
     top:0;
     left: 0;
-    width: 100px;
-    height: 200px;
-      color: #000;
-  background: red;
-  display: block;
-  z-index: 99999999;
+    z-index: 99999999;
+
+    max-width: 300px;
+    padding: 9px 14px;
+
+    background-color: #fff;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    white-space: normal;
+
 }
