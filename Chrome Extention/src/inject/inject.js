@@ -47,23 +47,28 @@ function showPopover(word, x, y) {
         var popover = $('.dalila_popover');
 
 
-        var html = '<table style="width: 100%;">';
+        var html = "";
+        if(result.word == undefined && result.diac == undefined) {
+            html = "Unknown word.";
+        } else {
+            html = '<table style="width: 100%;">';
 
-        var labelsVsResults = [];
-        labelsVsResults.push([ "Word" , result.word ])
-        labelsVsResults.push([ "Diac" , result.diac ])
-        labelsVsResults.push([ "Pos" , result.pos ])
-        labelsVsResults.push([ "Lex" , result.lex ])
-        labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
-        labelsVsResults.push([ "Gloss" , result.gloss ])
+            var labelsVsResults = [];
+            labelsVsResults.push([ "Word" , result.word ])
+            labelsVsResults.push([ "Diac" , result.diac ])
+            labelsVsResults.push([ "Pos" , result.pos ])
+            labelsVsResults.push([ "Lex" , result.lex ])
+            labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
+            labelsVsResults.push([ "Gloss" , result.gloss ])
 
-        for(var k in labelsVsResults) {
-            var label = labelsVsResults[k][0];
-            var value = labelsVsResults[k][1];
-            html += '<tr><td style="width:80px">' + label + '</td><td>' + value + '</td></tr>';
+            for(var k in labelsVsResults) {
+                var label = labelsVsResults[k][0];
+                var value = labelsVsResults[k][1];
+                html += '<tr><td style="width:80px">' + label + '</td><td>' + value + '</td></tr>';
+            }
+
+            html += '</table>';
         }
-
-        html += '</table>';
 
 
 
