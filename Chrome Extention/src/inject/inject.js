@@ -74,15 +74,16 @@ function showPopover(word, x, y) {
 
 function dalilaProcess(word, callback) {
 
-    var result = {
-    	word: 'ومحيكتبهاش',
-    	diac: 'وِما حَيِكْتِبهاش',
-    	tok: 'و+ما+ح+يكتب+ها+ش',
-    	pos: 'verb',
-    	lex: 'كَتَب',
-    	gloss: 'and he will not write it',
-    	lexgloss: 'write'
-    };
+    var result = analyzeSolutions(word);
+    // var result = {
+    // 	word: 'ومحيكتبهاش',
+    // 	diac: 'وِما حَيِكْتِبهاش',
+    // 	tok: 'و+ما+ح+يكتب+ها+ش',
+    // 	pos: 'verb',
+    // 	lex: 'كَتَب',
+    // 	gloss: 'and he will not write it',
+    // 	lexgloss: 'write'
+    // };
 
     callback(result);
 };

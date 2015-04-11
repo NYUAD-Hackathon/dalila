@@ -13,21 +13,21 @@ function analyzeSolutions(word){
 
  
     //// Handle deterministic (trivial) cases 
-    if(/^\s*$/.match(word) ){								//if ($word =~/^\s*$/){
+    if(word.match(/^\s*$/) ){								//if ($word =~/^\s*$/){
 		//#Word is just whitespace
 		return [word];										//[$word];
 
-    }else if (/[BCceGIJLMOPQRUVWX]/.match(word) || /^(\s|[aiuo\~\`FKN])*$/.match(word) ){//}elsif (( $word=~/[BCceGIJLMOPQRUVWX]/ ) || ($word=~/^(\s|[aiuo\~\`FKN])*$/)){
+    }else if (word.match(/[BCceGIJLMOPQRUVWX]/) || word.match(/^(\s|[aiuo\~\`FKN])*$/) ){//}elsif (( $word=~/[BCceGIJLMOPQRUVWX]/ ) || ($word=~/^(\s|[aiuo\~\`FKN])*$/)){
 		////  Word is likely a non-Arabic word
 		//var hash_res 		= hash["DEFAULT pos:noun"]		//$$hash{"DEFAULT pos:noun"}
 		var default_obj 	= {}//hash_res; 				//var %DEFAULT=%{$$hash{"DEFAULT pos:noun"}};
 		default_obj.diac 	= word; 						//$DEFAULT{"diac"}=$word; 
-		default_obj.lex 	= word + "_0";					//$DEFAULT{"lex"}=$word."_0"; 
-		default_obj.bw 		= word + "/FOREIGN";			//$DEFAULT{"bw"}=$word."/FOREIGN"; 
+		default_obj.lex 	= word;// + "_0";					//$DEFAULT{"lex"}=$word."_0"; 
+		default_obj.bw 		= "FOREIGN";			//$DEFAULT{"bw"}=$word."/FOREIGN"; 
 		default_obj.gloss	= word; 						//$DEFAULT{"gloss"}=$word; 
 		default_obj.source 	= "foreign";					//$DEFAULT{"source"}="foreign";
 		return [default_obj];								//return [$analysis];
-	}else if (/\d+/.match(word)){							//( $word=~/\d+/ ){
+	}else if (word.match(/\d+/)){							//( $word=~/\d+/ ){
 		//  Word contains digits	
 		//var hash_res 		= hash["DEFAULT pos:digit"]		//$$hash{"DEFAULT pos:digit"}
 		var default_obj 	= {}//hash_res; 				//var %DEFAULT=%{$$hash{"DEFAULT pos:digit"}};
@@ -409,5 +409,10 @@ function toBuckwalter(text){
 
      return text
  }
+
+function isPunct(str) {
+    return str.match(/^\s*[\-\=\"\_\:\#\@\!\?\^\/\(\)\[\]\%\;\\\+\.\,]+\s*$/);
+}
+
 
 window.analyzeSolutions = analyzeSolutions;
