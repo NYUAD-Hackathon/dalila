@@ -43,3 +43,19 @@ function result(word, callback) {
 }); 
 
 }; 
+$(document).ready(function() {
+
+    var p = $('p');
+    p.css({ cursor: 'pointer' });
+
+    p.dblclick(function(e) {
+        var range = window.getSelection() || document.getSelection() || document.selection.createRange();
+        var word = $.trim(range.toString());
+        if(word != '') {
+            alert(word);
+        }
+        range.collapse();
+        e.stopPropagation();
+    });
+    
+});

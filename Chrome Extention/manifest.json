@@ -18,10 +18,11 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.google.com/*"
+        "<all_urls>"
       ],
       "css": [
-        "src/inject/inject.css"
+        "src/inject/inject.css",
+        "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
       ]
     },
     {
@@ -29,7 +30,9 @@
         "<all_urls>"
       ],
       "js": [
-        "src/inject/inject.js"
+      "js/jquery/jquery.min.js",
+      "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js",
+      "src/inject/inject.js"
       ]
     }
   ]
