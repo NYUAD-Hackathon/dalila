@@ -29,16 +29,25 @@ $(document).ready(function() {
         if(word != '') {
             showPopover(word, event.pageX, event.pageY);
         }
-        range.collapse();
+        try {
+            range.collapse();
+        } catch(e) {}
         e.stopPropagation();
     }
 
 });
 
 
+function isArabic(str) {
+    var chars = str.match("[\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufc3f]|[\ufe70-\ufefc]");
+    return !(chars==null);
+}
 
 function showPopover(word, x, y) {
-    dalilaProcess(word, function(result) {
+
+    if(!isArabic(word)) return;
+
+        dalilaProcess(word, function(result) {
 
         jQuery(document).one('mousemove', function(e) {
             $('.dalila_popover').hide();
@@ -54,11 +63,11 @@ function showPopover(word, x, y) {
             html = '<table style="width: 100%;">';
 
             var labelsVsResults = [];
-            labelsVsResults.push([ "Word" , result.word ])
+            // labelsVsResults.push([ "Word" , result.word ])
             labelsVsResults.push([ "Diac" , result.diac ])
             labelsVsResults.push([ "Pos" , result.pos ])
             labelsVsResults.push([ "Lex" , result.lex ])
-            labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
+            // labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
             labelsVsResults.push([ "Gloss" , result.gloss ])
 
             for(var k in labelsVsResults) {
@@ -68,6 +77,8 @@ function showPopover(word, x, y) {
             }
 
             html += '</table>';
+
+            html += '<a href="http://visitabudhabi.ae/en/default.aspx" href="_blank"><img src="'+ chrome.extension.getURL('icons/ad.jpg') +'" /></a>';
         }
 
 
@@ -87,7 +98,7 @@ function showPopover(word, x, y) {
             popover.css({left:x, right:'auto'})
         }
 
-        popover.css({width:300})
+        popover.css({width:350})
         y = y + 20;
         popover.css({top:y})
 
