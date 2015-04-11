@@ -123,11 +123,35 @@ function analyzeSolutions(word){
                                 stem_value["lex"] = stem_value["lex"].replace(/(-[uiao])?\_\d$/, "")
                                 analysis.lex = stem_value["lex"]
 
+                                var bw     = prefix_value.bw + "+"+stem_value.bw + "+"+suffix_value.bw;  //var $voc_str = $$prefix_value{"diac"}."+".$$stem_value{"diac"}."+".$$suffix_value{"diac"};
+
+                                //Replace pluses in the beginning with empty
+                                bw = replaceAll("^\\++", '', bw)
+                                 //Replace pluses in the ending with empty
+                                bw = replaceAll("\\++$", '', bw)
+                                //Replace undefined with empty
+                                bw = replaceAll('undefined','', bw);
+                                //Replace double pluses with single pluses
+                                bw = replaceAll('\\++', "+", bw);
+
+                                analysis.bw = bw
+                                console.log("bw:",bw)
+
+
                                 var current_prob = -999999;
-                                if( lexModel.hasOwnProperty(analysis.lex)){
-                                        current_prob = lexModel[analysis.lex]
+
+                                if( lexModel.hasOwnProperty(analysis.lex) && posModel.hasOwnProperty(analysis.bw)){
+                                        current_prob = lexModel[analysis.lex] + posModel[analysis.bw]
+                                        console.log("lexModel[analysis.lex]:", lexModel[analysis.lex])
+                                        console.log("posModel[analysis.bw]:", posModel[analysis.bw])
+                                }else if(analysis.bw.match(/NOUN\_PROP/) != null){
+                                    current_prob = -200
                                 }
+
+
+
                                 console.log("analysis.lex:", analysis.lex)
+                                console.log("analysis.bw:", analysis.bw)
                                 console.log("current_prob:",current_prob)
 
 
