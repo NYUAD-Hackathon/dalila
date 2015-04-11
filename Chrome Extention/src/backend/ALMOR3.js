@@ -7,7 +7,7 @@
 function analyzeSolutions(word){
 
 	word = toBuckwalter(word)
-	var output = []; 										//var (@output) = ();
+	var output = {}; 										//var (@output) = ();
     var solutions = []; 									//var @solutions = ();
     var cnt = 0; 											//var $cnt = 0;
 
@@ -62,7 +62,7 @@ function analyzeSolutions(word){
 		matchword = word;											//$matchword = $word;
     }
 
-
+    var max_prob = -1000000;
     var segmented = segmentword(matchword);							//var @segmented= @{ &segmentword($matchword,$hash) };
     for(var t=0; t<segmented.length; t++){							//foreach var $segmentation (@segmented) {
 	 	var segmentation 	= segmented[t];						//#print "( $segmentation )\n";
@@ -105,6 +105,8 @@ function analyzeSolutions(word){
 
 				    			var voc_str 	= prefix_value.diac + stem_value.diac + suffix_value.diac;	//var $voc_str = $$prefix_value{"diac"}."+".$$stem_value{"diac"}."+".$$suffix_value{"diac"};
                                 voc_str = replaceAll('_',' ', voc_str);
+                                voc_str = replaceAll('undefined','', voc_str);
+                                
 				    			// TODO convert BWMorphotactics to javascript
 				    			//voc_str		= BWMorphotactics(voc_str)												//$voc_str=&BWMorphotactics($voc_str);
 
@@ -115,33 +117,45 @@ function analyzeSolutions(word){
 				    			//#prefer values in this order: STEM+DEFAULT < prefix < suffix
 				    			var analysis 	= {}
 				    			analysis.word 	= toUnicode(unvoc_str)
+
 				    			analysis.diac 	= toUnicode(voc_str)
 				    			analysis.pos 	= stem_value["pos"]														//var %analysis = %{ &featureMergePSS($prefix_value,$stem_value,$suffix_value) };
                                 stem_value["lex"] = stem_value["lex"].replace(/(-[uiao])?\_\d$/, "")
-				    			analysis.lex 	= toUnicode(stem_value["lex"])														//var %analysis = %{ &featureMergePSS($prefix_value,$stem_value,$suffix_value) };
+                                analysis.lex = stem_value["lex"]
+
+                                var current_prob = -999999;
+                                if( lexModel.hasOwnProperty(analysis.lex)){
+                                        current_prob = lexModel[analysis.lex]
+                                }
+                                console.log("analysis.lex:", analysis.lex)
+                                console.log("current_prob:",current_prob)
+
+
+                                analysis.prob = current_prob; 
+
+				    			analysis.lex 	= toUnicode(analysis.lex)														//var %analysis = %{ &featureMergePSS($prefix_value,$stem_value,$suffix_value) };
 
 				   				analysis.lexgloss = stem_value["gloss"]																//# $analysis{"gloss"} = $$stem_value{"gloss"};
 
-							    analysis.gloss 	= prefix_value["gloss"] + "+" + stem_value["gloss"] + "+" + suffix_value["gloss"];	//$analysis{"gloss"} = $$prefix_value{"gloss"}."+".$$stem_value{"gloss"}."+".$$suffix_value{"gloss"};
+							    analysis.gloss 	= prefix_value["gloss"] + " "+ stem_value["gloss"] + " " + suffix_value["gloss"];	//$analysis{"gloss"} = $$prefix_value{"gloss"}."+".$$stem_value{"gloss"}."+".$$suffix_value{"gloss"};
 
+                                console.log("unvoc_str:", unvoc_str)
 
+                                console.log("analysis:",analysis)
 
-							    //analysis.bw  = prefix_value["bw"] + "+" + stem_value["bw"] + "+" + suffix_value["bw"];				//$analysis{"bw"} = $$prefix_value{"bw"}."+".$$stem_value{"bw"}."+".$$suffix_value{"bw"};
-							   																		//$analysis{"diac"} = $voc_str;
+                                console.log("prefix gloss:", prefix_value["gloss"])
+                                console.log("stem gloss:", stem_value["gloss"])
 
-	//tok: 'و+ما+ح+يكتب+ها+ش'
+                                console.log("suffix gloss:", suffix_value["gloss"])
 
+						
+                                //Check if current probablity is greater than the max_segmentation
 
-							  //  if(unvoc_str != unvocword){																			//if ($unvoc_str ne $unvocword){
-							   // 	$analysis{"source"}="spvar";
-							    //}
+                                if(current_prob>max_prob){
+                                    max_prob = current_prob;
 
-							    //var $analysis = &featureHash2Str($$hash{"ORDER"},\%analysis);
-							   // var voc_stem = stem_value["diac"];																	//var $voc_stem=$$stem_value{"diac"};
-							    //output.push({"analysis":analysis, "stem": voc_stem, "stemcat": cat_b}});							//push (@output, "$analysis stem:$voc_stem stemcat:$cat_b");
-                                return analysis;
-							   //output.push(analysis);
-
+                                    output = analysis;
+                                }
 							}
 			    		}
 					}
@@ -165,7 +179,7 @@ function analyzeSolutions(word){
 
     // Probably a more efficient way of doing the following step ?
     //@output=@{ &unique(\@output) };
-
+    console.log("selected:", output)
     return output;//return \@output;
 
 
