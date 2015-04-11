@@ -35,7 +35,8 @@ $(document).ready(function() {
 
 function showPopover(word, x, y) {
     dalilaProcess(word, function(result) {
-        $('.dalila_popover').show().html( JSON.stringify(result) ).css({top:y, left:x})
+        var html = JSON.stringify(result);
+        $('.dalila_popover').show().html(html).css({top:y, left:x})
     });
 }
 
