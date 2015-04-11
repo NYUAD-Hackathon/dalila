@@ -29,6 +29,13 @@
         "<all_urls>"
       ],
       "js": [
+        "src/backend/ALMOR3.js",
+        "src/dictionary/prefix.js",
+        "src/dictionary/stem.js",
+        "src/dictionary/suffix.js",
+        "src/dictionary/table.js",
+        "src/model/dalila-lex.lm.js",
+        "src/model/dalila-pos.lm.js",
         "js/jquery/jquery.min.js",
         "src/inject/inject.js"
       ]
