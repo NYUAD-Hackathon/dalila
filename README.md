@@ -29,4 +29,11 @@ learners of Arabic and Arabic dialects by providing dialectal word analysis and 
   * Top analysis is sent to the front end.
 
 
-
+## NYUAD Hackathon Information 
+ * Students: 
+    * Hiba Bejaoui, ESPRIT, Tunisia
+    * Maeda Hanafi, NYU AD, UAE
+    * Fatima Al Neyadi, UAE University, UAE
+    * Sara Al Kendi, UAE University, UAE 
+ * Presentation requirements: 
+    * 4 microphones, computer demonstration 
