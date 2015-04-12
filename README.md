@@ -37,3 +37,4 @@ learners of Arabic and Arabic dialects by providing dialectal word analysis and 
     * Sara Al Kendi, UAE University, UAE 
  * Presentation requirements: 
     * 4 microphones, computer demonstration 
+ * [Link to Presentation slides](https://docs.google.com/presentation/d/1tOl_8XdK3v8lIlrsPqHpMGWvr_zH8KNDx9lIW5xlxMA/edit?usp=sharing)
