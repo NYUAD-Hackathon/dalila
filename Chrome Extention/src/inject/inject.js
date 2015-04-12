@@ -58,30 +58,18 @@ function showPopover(word, x, y) {
 
         var html = "";
         if(result.word == undefined && result.diac == undefined) {
-            html = "Unknown word.";
+            html = '<div class="dalila_gloss">Unknown word.</div>';
         } else {
-            html = '<table style="width: 100%;">';
-
-            var labelsVsResults = [];
-            // labelsVsResults.push([ "Word" , result.word ])
-            labelsVsResults.push([ "Diac" , result.diac ])
-            labelsVsResults.push([ "Pos" , result.pos ])
-            labelsVsResults.push([ "Lex" , result.lex ])
-            // labelsVsResults.push([ "Lexgloss" , result.lexgloss ])
-            labelsVsResults.push([ "Gloss" , result.gloss ])
-
-            for(var k in labelsVsResults) {
-                var label = labelsVsResults[k][0];
-                var value = labelsVsResults[k][1];
-                html += '<tr><td style="width:80px">' + label + '</td><td>' + value + '</td></tr>';
-            }
-
-            html += '</table>';
+            result.gloss = clean(result.gloss);
+            html += '<div><div class="dalila_head">'+ result.diac +'</div><div class="dalila_lex"><span>(' + result.pos + ') </span>' + result.lex + '</div><div class="dalila_gloss">' + result.gloss + '</div></div>';
         }
 
         html += '<a href="http://visitabudhabi.ae/en/default.aspx" href="_blank"><img src="'+ chrome.extension.getURL('icons/ad.jpg') +'" /></a>';
 
         popover.html(html);
+
+        popover.css('background-image', 'url(' + chrome.extension.getURL('icons/icon48.png') + ')');
+
         popover.show();
 
         popover.css({top:0, left:0})
@@ -96,14 +84,18 @@ function showPopover(word, x, y) {
             popover.css({left:x, right:'auto'})
         }
 
-        popover.css({width:350})
+        popover.css({width:300})
         y = y + 20;
         popover.css({top:y})
 
     });
 }
 
-
+function clean(word) {
+    word = replaceAll("(\\+|\\_)"," ", word)
+    word = replaceAll("(\\;)","/", word)
+    return word.replace(/ +(?= )/g,'');
+}
 
 function dalilaProcess(word, callback) {
 
