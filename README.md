@@ -1,11 +1,11 @@
 # Dalila
 The Arabic Dialect Guide
 
-##Description
+## Description
 Dalila is a Chrome extension that utilizes cutting edge natural language processing (NLP) research to help 
 learners of Arabic and Arabic dialects by providing dialectal word analysis and definitions. 
 
-##Usage
+## Usage
 1. Users can enable Dalila by downloading the Chrome extension.
 2. A double click on any Arabic word on the webpage triggers Dalila to provide:
   * Diacritized form.
@@ -13,13 +13,13 @@ learners of Arabic and Arabic dialects by providing dialectal word analysis and 
   * English definition.
   
 
-##Extension Components
-####Frontend:
+## Extension Components
+#### Frontend:
   * An Arabic word gets deteced as Arabic text once its double clicked by the user. 
   * The selected word is sent to the backend to get the analysis.
   * The analysis is displayed in pop-up box.
 
-####Backend:
+#### Backend:
   * Receive the word from the frontend.
   * The word will be segmeted into "Prefix+Stem+Suffix"
   * Each part will be checked against a dictionary to find multiple possible valid forms.
@@ -37,4 +37,4 @@ learners of Arabic and Arabic dialects by providing dialectal word analysis and 
     * Sara Al Kendi, UAE University, UAE 
  * Presentation requirements: 
     * 4 microphones, computer demonstration 
- * [Link to Presentation slides](https://docs.google.com/presentation/d/1tOl_8XdK3v8lIlrsPqHpMGWvr_zH8KNDx9lIW5xlxMA/edit?usp=sharing)
+ * [Presentation slides](https://docs.google.com/presentation/d/1tOl_8XdK3v8lIlrsPqHpMGWvr_zH8KNDx9lIW5xlxMA/edit?usp=sharing)
