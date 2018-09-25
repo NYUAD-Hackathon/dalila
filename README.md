@@ -38,3 +38,8 @@ learners of Arabic and Arabic dialects by providing dialectal word analysis and 
  * Presentation requirements: 
     * 4 microphones, computer demonstration 
  * [Link to Presentation slides](https://docs.google.com/presentation/d/1tOl_8XdK3v8lIlrsPqHpMGWvr_zH8KNDx9lIW5xlxMA/edit?usp=sharing)
+ 
+ ## Publication
+ If you use DALILA, please make sure to cite the paper:
+ * Khalifa, Salam, Houda Bouamor and Nizar Habash. DALILA: The Dialectal Arabic Linguistic Learning Assistant. In Proceedings of the Language Resources and Evaluation Conference (LREC), Portorož, Slovenia, 2016. [PDF](http://www.lrec-conf.org/proceedings/lrec2016/pdf/760_Paper.pdf)
+
